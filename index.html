@@ -567,6 +567,22 @@
 
     .nav-links a:hover { color: var(--accent); }
 
+    /* HAMBURGER */
+    .hamburger {
+      display: none; flex-direction: column; gap: 5px;
+      background: none; border: none; cursor: pointer;
+      padding: 4px; z-index: 200;
+    }
+    .hamburger span {
+      display: block; width: 26px; height: 2px;
+      background: var(--white);
+      transition: transform 0.3s, opacity 0.3s;
+      transform-origin: center;
+    }
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
     /* FOOTER */
     footer {
       background: var(--black);
@@ -612,6 +628,15 @@
 
     @media (max-width: 900px) {
       nav { padding: 16px 24px; }
+      .hamburger { display: flex; }
+      .nav-links {
+        display: none; position: fixed; inset: 0;
+        background: rgba(10,10,10,0.97);
+        flex-direction: column; align-items: center; justify-content: center;
+        gap: 2.5rem; z-index: 150;
+      }
+      .nav-links.open { display: flex; }
+      .nav-links.open a { font-size: 1.1rem; letter-spacing: 0.15em; }
       .hero { grid-template-columns: 1fr; min-height: auto; padding-top: 80px; }
       .hero-left { padding: 60px 24px 40px; }
       .hero-right { padding: 0 24px 60px; }
@@ -632,12 +657,15 @@
 
 <nav>
   <a href="/" class="nav-logo">Sorted <span>&</span> Sold</a>
-  <ul class="nav-links">
+  <ul class="nav-links" id="navLinks">
     <li><a href="events.html">Upcoming Sales</a></li>
     <li><a href="about.html">About</a></li>
     <li><a href="faq.html">FAQ</a></li>
     <li><a href="contact.html" style="color:var(--accent)">Get Started</a></li>
   </ul>
+  <button class="hamburger" id="hamburger" onclick="toggleNav()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
 
 <!-- HERO -->
@@ -930,6 +958,17 @@
 </footer>
 
 <script>
+  function toggleNav() {
+    document.getElementById('hamburger').classList.toggle('open');
+    document.getElementById('navLinks').classList.toggle('open');
+  }
+  document.querySelectorAll('#navLinks a').forEach(function(a) {
+    a.addEventListener('click', function() {
+      document.getElementById('hamburger').classList.remove('open');
+      document.getElementById('navLinks').classList.remove('open');
+    });
+  });
+
   function submitQuickForm(e) {
     e.preventDefault();
     document.getElementById('quickForm').style.display = 'none';
