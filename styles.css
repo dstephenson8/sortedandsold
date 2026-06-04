@@ -412,7 +412,7 @@ nav.scrolled {
 .feature-num {
   font-family: var(--font-display);
   font-size: 3.5rem;
-  color: rgba(232,160,32,0.15);
+  color: var( --gold);
   line-height: 1;
   margin-bottom: 1.5rem;
 }
@@ -556,6 +556,43 @@ nav.scrolled {
 .promise-banner span {
   font-family: var(--font-italic);
   font-style: italic;
+}
+
+/* ─── SERVICE AREA ─── */
+.service-area-section {
+  background: var(--cream);
+  padding: 6rem 4rem;
+  text-align: center;
+  border-top: 1px solid rgba(0,0,0,0.07);
+}
+.service-area-inner {
+  max-width: 680px;
+  margin: 0 auto;
+}
+.service-area-section h2 { margin-bottom: 1rem; }
+.service-area-section > .service-area-inner > p { color: var(--muted); margin-bottom: 1.5rem; }
+.service-area-list {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.6rem 1.2rem;
+  padding: 0;
+  margin: 0 0 1.5rem;
+}
+.service-area-list li {
+  background: var(--warm-white);
+  border: 1px solid rgba(0,0,0,0.1);
+  border-radius: 2rem;
+  padding: 0.4rem 1.1rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--dark);
+}
+.service-area-note {
+  font-size: 0.85rem;
+  color: var(--muted);
+  margin-top: 0.5rem;
 }
 
 /* ─── CTA BANNER ─── */
