@@ -3,172 +3,353 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>About — Sorted &amp; Sold</title>
-  <link rel="stylesheet" href="styles.css" />
+  <title>About — Sorted &amp; Sold Pittsburgh</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,600;1,300&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --black: #0a0a0a;
+      --white: #f5f2ed;
+      --cream: #f0ead8;
+      --accent: #e8c547;
+      --text: #1a1a1a;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--white); color: var(--text); font-family: 'DM Sans', sans-serif; overflow-x: hidden; }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 20px 60px;
+      background: rgba(10,10,10,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .nav-logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 24px; letter-spacing: 0.05em;
+      color: var(--white); text-decoration: none;
+    }
+    .nav-logo span { color: var(--accent); }
+    .nav-links { display: flex; gap: 36px; list-style: none; }
+    .nav-links a {
+      font-size: 12px; font-weight: 600; letter-spacing: 0.12em;
+      text-transform: uppercase; color: rgba(245,242,237,0.55);
+      text-decoration: none; transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--accent); }
+
+    /* PAGE HERO */
+    .page-hero {
+      background: var(--black);
+      padding: 160px 80px 100px;
+      position: relative; overflow: hidden;
+    }
+    .page-hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: repeating-linear-gradient(
+        -45deg, transparent, transparent 40px,
+        rgba(255,255,255,0.015) 40px, rgba(255,255,255,0.015) 41px
+      );
+      pointer-events: none;
+    }
+    .page-hero-label {
+      font-size: 11px; font-weight: 600; letter-spacing: 0.25em;
+      text-transform: uppercase; color: rgba(245,242,237,0.3);
+      margin-bottom: 20px; display: block;
+    }
+    .page-hero h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(60px, 8vw, 110px);
+      line-height: 0.92; color: var(--white);
+    }
+    .page-hero h1 span { color: var(--accent); }
+
+    /* SECTIONS */
+    .section { padding: 100px 80px; }
+    .section-label {
+      font-size: 11px; font-weight: 600; letter-spacing: 0.25em;
+      text-transform: uppercase; color: rgba(10,10,10,0.35);
+      margin-bottom: 16px; display: block;
+    }
+    .section-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(40px, 5vw, 68px);
+      line-height: 1; color: var(--black);
+    }
+
+    /* STORY */
+    .story-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 80px; align-items: start; margin-top: 60px;
+    }
+    .story-body p {
+      font-size: 17px; font-weight: 300; line-height: 1.75;
+      color: rgba(10,10,10,0.65); margin-bottom: 20px;
+    }
+    .story-stats {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 2px;
+    }
+    .stat-box {
+      background: var(--black); padding: 40px 32px;
+    }
+    .stat-box.accent { background: var(--accent); }
+    .stat-big {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 56px; line-height: 1;
+      color: var(--white); margin-bottom: 8px;
+    }
+    .stat-box.accent .stat-big { color: var(--black); }
+    .stat-desc {
+      font-size: 12px; font-weight: 600; letter-spacing: 0.12em;
+      text-transform: uppercase; color: rgba(245,242,237,0.4);
+    }
+    .stat-box.accent .stat-desc { color: rgba(10,10,10,0.5); }
+
+    /* VALUES */
+    .values-section { background: var(--cream); }
+    .values-grid {
+      display: grid; grid-template-columns: repeat(2, 1fr);
+      gap: 2px; margin-top: 60px;
+    }
+    .value-card {
+      background: var(--white); padding: 48px 40px;
+    }
+    .value-icon {
+      font-size: 32px; margin-bottom: 20px;
+    }
+    .value-card h3 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 28px; color: var(--black);
+      margin-bottom: 12px;
+    }
+    .value-card p {
+      font-size: 15px; font-weight: 300;
+      color: rgba(10,10,10,0.6); line-height: 1.7;
+    }
+
+    /* TEAM */
+    .team-section { background: var(--black); }
+    .team-section .section-label { color: rgba(245,242,237,0.3); }
+    .team-section .section-title { color: var(--white); }
+    .team-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.06);
+      padding: 48px 40px; margin-top: 60px;
+      max-width: 640px;
+    }
+    .team-avatar {
+      width: 72px; height: 72px; border-radius: 50%;
+      background: var(--accent);
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 32px; color: var(--black);
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 24px;
+    }
+    .team-card h3 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 36px; color: var(--white); margin-bottom: 4px;
+    }
+    .team-role {
+      font-size: 11px; font-weight: 600; letter-spacing: 0.15em;
+      text-transform: uppercase; color: var(--accent);
+      margin-bottom: 20px;
+    }
+    .team-card p {
+      font-size: 15px; font-weight: 300;
+      color: rgba(245,242,237,0.55); line-height: 1.75;
+    }
+
+    /* CTA */
+    .cta-section {
+      background: var(--accent); padding: 100px 80px;
+      text-align: center;
+    }
+    .cta-section .section-title { margin-bottom: 20px; }
+    .cta-section p {
+      font-size: 18px; font-weight: 300;
+      color: rgba(10,10,10,0.6); margin-bottom: 40px;
+    }
+    .btn-primary {
+      background: var(--black); color: var(--white);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 600; font-size: 14px;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      padding: 16px 40px; text-decoration: none;
+      display: inline-block; transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .btn-primary:hover {
+      transform: translate(-3px, -3px);
+      box-shadow: 6px 6px 0 rgba(0,0,0,0.2);
+    }
+    .btn-ghost {
+      border: 1.5px solid rgba(10,10,10,0.3); color: var(--black);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 400; font-size: 14px; letter-spacing: 0.05em;
+      padding: 16px 40px; text-decoration: none;
+      display: inline-block; transition: border-color 0.2s;
+      margin-left: 16px;
+    }
+
+    /* FOOTER */
+    footer {
+      background: var(--black); padding: 48px 80px;
+      display: flex; align-items: center;
+      justify-content: space-between; flex-wrap: wrap; gap: 20px;
+    }
+    .footer-brand {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 24px; color: var(--white); letter-spacing: 0.05em;
+    }
+    .footer-brand span { color: var(--accent); }
+    .footer-contact {
+      display: flex; gap: 24px; flex-wrap: wrap; align-items: center;
+    }
+    .footer-contact a {
+      font-size: 12px; font-weight: 600; letter-spacing: 0.08em;
+      text-transform: uppercase; color: rgba(245,242,237,0.4);
+      text-decoration: none; transition: color 0.2s;
+    }
+    .footer-contact a:hover { color: var(--accent); }
+    .footer-links { display: flex; gap: 24px; list-style: none; }
+    .footer-links a {
+      font-size: 12px; font-weight: 600; letter-spacing: 0.1em;
+      text-transform: uppercase; color: rgba(245,242,237,0.35);
+      text-decoration: none; transition: color 0.2s;
+    }
+    .footer-links a:hover { color: var(--accent); }
+    .footer-copy {
+      font-size: 11px; color: rgba(245,242,237,0.25); letter-spacing: 0.05em;
+    }
+
+    @media (max-width: 900px) {
+      nav { padding: 16px 24px; }
+      .page-hero { padding: 120px 24px 80px; }
+      .section { padding: 60px 24px; }
+      .story-grid { grid-template-columns: 1fr; gap: 40px; }
+      .values-grid { grid-template-columns: 1fr; }
+      .cta-section { padding: 60px 24px; }
+      footer { flex-direction: column; text-align: center; padding: 40px 24px; gap: 16px; }
+      .footer-contact { justify-content: center; }
+      .footer-links { justify-content: center; }
+    }
+  </style>
 </head>
 <body>
 
-<nav id="mainNav">
-  <a class="logo-wrap" href="/">
-    <div class="logo-wordmark">
-      Sorted &amp; Sold
-      <span class="logo-sparkle-group">
-        <span class="sparkle"><svg width="18" height="18" viewBox="0 0 24 24"><path d="M12 2 L13.5 10.5 L22 12 L13.5 13.5 L12 22 L10.5 13.5 L2 12 L10.5 10.5 Z" fill="#e8a020"/></svg></span>
-        <span class="sparkle"><svg width="14" height="14" viewBox="0 0 24 24"><path d="M12 2 L13.5 10.5 L22 12 L13.5 13.5 L12 22 L10.5 13.5 L2 12 L10.5 10.5 Z" fill="#f5bb4a"/></svg></span>
-        <span class="sparkle"><svg width="10" height="10" viewBox="0 0 24 24"><path d="M12 2 L13.5 10.5 L22 12 L13.5 13.5 L12 22 L10.5 13.5 L2 12 L10.5 10.5 Z" fill="#e8a020"/></svg></span>
-      </span>
-    </div>
-    <span class="logo-tagline">Estate Sales · Pittsburgh</span>
-  </a>
-  <ul class="nav-links" id="navLinks">
-    <li><a href="/" data-page="/">Home</a></li>
-    <li><a href="about.html" data-page="about.html">About</a></li>
-    <li><a href="events.html" data-page="events.html">Events</a></li>
-    <li><a href="contact.html" data-page="contact.html" class="nav-cta">Get Started</a></li>
+<nav>
+  <a href="/" class="nav-logo">Sorted <span>&</span> Sold</a>
+  <ul class="nav-links">
+    <li><a href="events.html">Upcoming Sales</a></li>
+    <li><a href="about.html" style="color:var(--accent)">About</a></li>
+    <li><a href="contact.html">Get Started</a></li>
   </ul>
-  <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
 </nav>
 
+<!-- HERO -->
 <div class="page-hero">
-  <div class="page-hero-bg"></div>
-  <div class="page-hero-lines"></div>
-  <div class="page-hero-content">
-    <span class="section-label">Our Story</span>
-    <h1>We're Just Getting<br><em>Started.</em> That's the Point.</h1>
-  </div>
+  <span class="page-hero-label">Who We Are</span>
+  <h1>Built on<br><span>Care.</span><br>Ready to Work.</h1>
 </div>
 
-<div class="about-story">
-  <div class="about-story-text">
-    <span class="section-label">Who We Are</span>
-    <h2>A Fresh Start for<br>a Business Built on Care</h2>
-    <div class="divider" style="margin:1.5rem 0"><div class="divider-diamond"></div></div>
-    <p>Sorted &amp; Sold was born out of a genuine belief: that estate sales should feel welcoming, well-run, and actually fun, for everyone involved. Whether you're a family navigating a difficult transition or a shopper hunting for something special, you deserve better than a chaotic, disorganized mess.</p>
-    <p>We're a new business, and we're proud of it. Being new means we're hungry, careful, and bringing fresh energy to everything we do. We don't have complacency. We have commitment.</p>
-    <p>Based right here in Pittsburgh, we know these neighborhoods, these homes, and this community. We're your neighbors, and we'll treat your estate like it's our own family's.</p>
-    <a href="contact.html" class="btn btn-coral" style="margin-top:1.5rem;display:inline-block">Work With Us</a>
-  </div>
-  <div class="about-visual">
-    <div class="about-card">
-      <div class="about-stat">
-        <div class="num">100%</div>
-        <div class="label">Focused on You</div>
-      </div>
-      <div class="about-stat">
-        <div class="num">Free</div>
-        <div class="label">Initial Consultation</div>
-      </div>
-      <div class="about-stat">
-        <div class="num">PITTs</div>
-        <div class="label">Proudly Local &amp; Pittsburgh-Based</div>
-      </div>
-      <div class="about-stat">
-        <div class="num">0</div>
-        <div class="label">Hidden Fees. Ever.</div>
-      </div>
+<!-- STORY -->
+<section class="section">
+  <span class="section-label">Our Story</span>
+  <h2 class="section-title">A Fresh Start for<br>a Business Built on Hustle</h2>
+  <div class="story-grid">
+    <div class="story-body">
+      <p>Sorted &amp; Sold was built on a simple belief: estate sales should feel welcoming, well-run, and actually worth showing up for — whether you're a family navigating a hard transition or a buyer hunting for something special.</p>
+      <p>We're new, and we're proud of it. Being new means we're hungry, careful, and bringing fresh energy to everything we do. No bad habits. No complacency. Just commitment.</p>
+      <p>Based right here in Pittsburgh, we know these neighborhoods, these homes, and this community. We're your neighbors, and we'll treat your estate like it matters — because it does.</p>
+      <a href="contact.html" class="btn-primary" style="margin-top:12px">Work With Us</a>
     </div>
-  </div>
-</div>
-
-<section class="values-section">
-  <div class="values-inner">
-    <span class="section-label" style="text-align:center;display:block">What Drives Us</span>
-    <h2>Our Values</h2>
-    <div class="divider" style="max-width:200px;margin:1.5rem auto 3rem"><div class="divider-diamond"></div></div>
-    <div class="values-grid">
-      <div class="value-item">
-        <div class="value-icon">✦</div>
-        <div>
-          <h3>Honesty, Always</h3>
-          <p>We tell you what things are worth, what to expect, and what we charge, before we start. No vague estimates, no surprise deductions at the end.</p>
-        </div>
+    <div class="story-stats">
+      <div class="stat-box">
+        <div class="stat-big">Free</div>
+        <div class="stat-desc">Consultation. Always.</div>
       </div>
-      <div class="value-item">
-        <div class="value-icon">🔍</div>
-        <div>
-          <h3>Genuine Expertise</h3>
-          <p>We research every item. We understand markets. We're not winging it. We're doing the homework so your estate gets priced right and sells well.</p>
-        </div>
+      <div class="stat-box accent">
+        <div class="stat-big">$0</div>
+        <div class="stat-desc">Hidden Fees. Ever.</div>
       </div>
-      <div class="value-item">
-        <div class="value-icon">💛</div>
-        <div>
-          <h3>Real Compassion</h3>
-          <p>Estate sales often come at hard times. We show up with patience, not pressure. Your comfort matters as much as the sale results.</p>
-        </div>
+      <div class="stat-box">
+        <div class="stat-big">PGH</div>
+        <div class="stat-desc">Local &amp; Proud</div>
       </div>
-      <div class="value-item">
-        <div class="value-icon">⚡</div>
-        <div>
-          <h3>New Business Energy</h3>
-          <p>Every client is everything to us right now. You won't be a number. You'll be the whole reason we come to work that day.</p>
-        </div>
+      <div class="stat-box">
+        <div class="stat-big">100%</div>
+        <div class="stat-desc">Focused on You</div>
       </div>
     </div>
   </div>
 </section>
 
-<section class="team-section">
-  <span class="section-label" style="text-align:center;display:block">The People</span>
-  <h2>Meet the Owner</h2>
-  <div class="divider" style="max-width:200px;margin:1.5rem auto 3rem"><div class="divider-diamond"></div></div>
-  <div class="team-grid">
-    <div class="team-card">
-      <div class="team-avatar">S</div>
-      <h3>Scarlet Sparke</h3>
-      <div class="role">Founder &amp; Principal</div>
-      <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Reiciendis, debitis impedit facere optio nostrum voluptatum ratione culpa, nulla veritatis recusandae commodi! Debitis incidunt nam inventore facilis dolorem dolorum nihil autem?</p>
+<!-- VALUES -->
+<section class="section values-section">
+  <span class="section-label">What Drives Us</span>
+  <h2 class="section-title">Our Values</h2>
+  <div class="values-grid">
+    <div class="value-card">
+      <div class="value-icon">✦</div>
+      <h3>Honesty, Always</h3>
+      <p>We tell you what things are worth, what to expect, and what we charge before we start. No vague estimates, no surprise deductions at the end.</p>
+    </div>
+    <div class="value-card">
+      <div class="value-icon">🔍</div>
+      <h3>Genuine Expertise</h3>
+      <p>We research every item. We understand markets. We're not winging it. We do the homework so your estate gets priced right and sells well.</p>
+    </div>
+    <div class="value-card">
+      <div class="value-icon">💛</div>
+      <h3>Real Compassion</h3>
+      <p>Estate sales often come at hard times. We show up with patience, not pressure. Your comfort matters as much as the sale results.</p>
+    </div>
+    <div class="value-card">
+      <div class="value-icon">⚡</div>
+      <h3>New Business Energy</h3>
+      <p>Every client is everything to us right now. You won't be a number. You'll be the whole reason we come to work that day.</p>
     </div>
   </div>
 </section>
 
-<section class="cta-banner">
+<!-- TEAM -->
+<section class="section team-section">
+  <span class="section-label">The People</span>
+  <h2 class="section-title">Meet the Owner</h2>
+  <div class="team-card">
+    <div class="team-avatar">S</div>
+    <h3>Scarlet Sparke</h3>
+    <div class="team-role">Founder &amp; Principal</div>
+    <p>Scarlet founded Sorted &amp; Sold to bring something Pittsburgh's estate sale scene was missing: real expertise, genuine care, and a shopping experience people actually enjoy. She leads every sale with an eye for detail and a commitment to making the process as smooth as possible for everyone involved.</p>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
   <span class="section-label">Let's Talk</span>
-  <h2>Your Estate Deserves<br>a Fresh Approach</h2>
-  <p>Free consultation. Come see what we're all about.</p>
-  <a href="contact.html" class="btn btn-gold">Get Your Free Consult</a>
+  <h2 class="section-title">Your Estate Deserves<br>a Fresh Approach</h2>
+  <p>Free consultation. No commitment. We'll walk you through everything.</p>
+  <a href="contact.html" class="btn-primary">Get Your Free Consult</a>
 </section>
 
 <footer>
-  <div class="footer-inner">
-    <div class="footer-brand">
-      <div class="wordmark">Sorted &amp; Sold ✦</div>
-      <div class="tagline">Estate Sales · Pittsburgh</div>
-      <p>Bringing warmth, expertise, and good energy to estate sales across the Pittsburgh area.</p>
-    </div>
-    <div class="footer-col">
-      <h4>Navigate</h4>
-      <ul>
-        <li><a href="/">Home</a></li>
-        <li><a href="about.html">About Us</a></li>
-        <li><a href="events.html">Upcoming Sales</a></li>
-        <li><a href="contact.html">Contact</a></li>
-      </ul>
-    </div>
-    <div class="footer-col">
-      <h4>Services</h4>
-      <ul>
-        <li><span>Estate Sales</span></li>
-        <li><span>Appraisals</span></li>
-        <li><span>Buyouts</span></li>
-        <li><span>Online Auctions</span></li>
-      </ul>
-    </div>
-    <div class="footer-col">
-      <h4>Get In Touch</h4>
-      <ul>
-        <li><span><a href="mailto:sortedandsoldpgh@gmail.com">sortedandsoldpgh@gmail.com</a></span></li>
-        <li><span><a href="tel:+4124437923">(412) 443-7923</a></span></li>
-        <li><span>Western PA · Pittsburgh &amp; Surrounding Counties</span></li>
-      </ul>
-    </div>
+  <div class="footer-brand">Sorted <span>&</span> Sold</div>
+  <div class="footer-contact">
+    <a href="tel:+4124437923">(412) 443-7923</a>
+    <a href="mailto:sortedandsoldpgh@gmail.com">sortedandsoldpgh@gmail.com</a>
+    <a href="https://instagram.com/sortedandsoldpgh" target="_blank">@sortedandsoldpgh</a>
   </div>
-  <div class="footer-bottom">
-    <span>&copy; 2025 Sorted &amp; Sold. All rights reserved.</span>
-    <span>Privacy Policy · Terms of Service</span>
-  </div>
+  <ul class="footer-links">
+    <li><a href="/">Home</a></li>
+    <li><a href="events.html">Events</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+  <p class="footer-copy">© 2025 Sorted &amp; Sold Pittsburgh · All rights reserved</p>
 </footer>
 
-<script src="nav.js"></script>
 </body>
 </html>

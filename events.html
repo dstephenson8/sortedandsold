@@ -3,244 +3,505 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Events,Sorted &amp; Sold</title>
-  <link rel="stylesheet" href="styles.css" />
+  <title>Upcoming Sales — Sorted &amp; Sold Pittsburgh</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,600;1,300&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --black: #0a0a0a;
+      --white: #f5f2ed;
+      --cream: #f0ead8;
+      --accent: #e8c547;
+      --text: #1a1a1a;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--white); color: var(--text); font-family: 'DM Sans', sans-serif; overflow-x: hidden; }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 20px 60px;
+      background: rgba(10,10,10,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .nav-logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 24px; letter-spacing: 0.05em;
+      color: var(--white); text-decoration: none;
+    }
+    .nav-logo span { color: var(--accent); }
+    .nav-links { display: flex; gap: 36px; list-style: none; }
+    .nav-links a {
+      font-size: 12px; font-weight: 600; letter-spacing: 0.12em;
+      text-transform: uppercase; color: rgba(245,242,237,0.55);
+      text-decoration: none; transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--accent); }
+
+    /* HERO */
+    .page-hero {
+      background: var(--black);
+      padding: 160px 80px 100px;
+      position: relative; overflow: hidden;
+    }
+    .page-hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: repeating-linear-gradient(
+        -45deg, transparent, transparent 40px,
+        rgba(255,255,255,0.015) 40px, rgba(255,255,255,0.015) 41px
+      );
+      pointer-events: none;
+    }
+    .page-hero-label {
+      font-size: 11px; font-weight: 600; letter-spacing: 0.25em;
+      text-transform: uppercase; color: rgba(245,242,237,0.3);
+      margin-bottom: 20px; display: block;
+    }
+    .page-hero h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(60px, 8vw, 110px);
+      line-height: 0.92; color: var(--white);
+    }
+    .page-hero h1 span { color: var(--accent); }
+    .page-hero p {
+      font-size: 18px; font-weight: 300;
+      color: rgba(245,242,237,0.5); margin-top: 28px;
+      max-width: 520px; line-height: 1.65;
+    }
+
+    /* MARQUEE */
+    .marquee-bar {
+      background: var(--accent); padding: 14px 0; overflow: hidden; white-space: nowrap;
+    }
+    .marquee-track {
+      display: inline-flex;
+      animation: marquee 18s linear infinite;
+    }
+    .marquee-track span {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 18px; letter-spacing: 0.1em;
+      color: var(--black); padding: 0 32px;
+    }
+    .marquee-track .dot { color: rgba(0,0,0,0.35); }
+    @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+    /* INTRO / WHAT TO EXPECT */
+    .intro-section {
+      padding: 80px; background: var(--cream);
+      display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start;
+    }
+    .intro-section .section-label {
+      font-size: 11px; font-weight: 600; letter-spacing: 0.25em;
+      text-transform: uppercase; color: rgba(10,10,10,0.35);
+      display: block; margin-bottom: 16px;
+    }
+    .intro-section h2 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(36px, 4vw, 56px);
+      line-height: 1; color: var(--black); margin-bottom: 24px;
+    }
+    .intro-section p {
+      font-size: 16px; font-weight: 300;
+      color: rgba(10,10,10,0.6); line-height: 1.75; margin-bottom: 16px;
+    }
+
+    /* NOTIFY BOX */
+    .notify-box {
+      background: var(--black); padding: 40px;
+    }
+    .notify-box h3 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 28px; color: var(--white); margin-bottom: 12px;
+    }
+    .notify-box p { font-size: 14px; color: rgba(245,242,237,0.5); margin-bottom: 24px; line-height: 1.6; }
+    .notify-btns { display: flex; flex-direction: column; gap: 10px; }
+    .notify-btn {
+      display: flex; align-items: center; gap: 12px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.08);
+      color: rgba(245,242,237,0.7);
+      padding: 14px 20px; cursor: pointer;
+      font-family: 'DM Sans', sans-serif; font-size: 13px;
+      font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
+      transition: background 0.2s, color 0.2s;
+    }
+    .notify-btn:hover { background: var(--accent); color: var(--black); }
+
+    /* FILTERS */
+    .events-section { padding: 80px; }
+    .events-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 40px; flex-wrap: wrap; gap: 20px;
+    }
+    .events-header h2 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(36px, 4vw, 56px); color: var(--black);
+    }
+    .filter-bar { display: flex; gap: 8px; }
+    .filter-btn {
+      background: none; border: 1.5px solid rgba(10,10,10,0.15);
+      padding: 8px 20px; cursor: pointer;
+      font-family: 'DM Sans', sans-serif; font-size: 11px;
+      font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase;
+      color: rgba(10,10,10,0.45); transition: all 0.2s;
+    }
+    .filter-btn.active,
+    .filter-btn:hover { background: var(--black); color: var(--white); border-color: var(--black); }
+
+    /* EVENT CARDS */
+    .events-list { display: flex; flex-direction: column; gap: 2px; }
+
+    .event-card {
+      display: grid; grid-template-columns: 120px 1fr auto;
+      align-items: center; gap: 0;
+      background: var(--black); color: var(--white);
+      padding: 0; overflow: hidden;
+      transition: transform 0.2s;
+    }
+    .event-card:hover { transform: translateX(4px); }
+
+    .event-date-block {
+      background: var(--accent); color: var(--black);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      padding: 32px 20px; height: 100%;
+      text-align: center;
+    }
+    .event-month {
+      font-size: 10px; font-weight: 600; letter-spacing: 0.2em;
+      text-transform: uppercase; opacity: 0.6; margin-bottom: 4px;
+    }
+    .event-day {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 56px; line-height: 1;
+    }
+    .event-weekday {
+      font-size: 10px; font-weight: 600; letter-spacing: 0.15em;
+      text-transform: uppercase; opacity: 0.6; margin-top: 4px;
+    }
+
+    .event-info { padding: 32px 40px; }
+    .event-tag {
+      display: inline-block;
+      font-size: 9px; font-weight: 600; letter-spacing: 0.2em;
+      text-transform: uppercase;
+      border: 1px solid rgba(255,255,255,0.15);
+      padding: 4px 10px; color: rgba(245,242,237,0.5);
+      margin-bottom: 10px;
+    }
+    .event-card.preview .event-tag { border-color: var(--accent); color: var(--accent); }
+    .event-info h3 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 28px; color: var(--white);
+      margin-bottom: 10px; line-height: 1.1;
+    }
+    .event-meta {
+      display: flex; flex-wrap: wrap; gap: 16px;
+      font-size: 13px; color: rgba(245,242,237,0.4);
+    }
+
+    .event-action { padding: 32px 40px; }
+    .btn-accent {
+      background: var(--accent); color: var(--black);
+      font-family: 'DM Sans', sans-serif; font-weight: 600;
+      font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
+      padding: 12px 24px; text-decoration: none; display: inline-block;
+      transition: transform 0.2s;
+    }
+    .btn-accent:hover { transform: translate(-2px, -2px); }
+    .btn-outline-dark {
+      border: 1.5px solid rgba(255,255,255,0.15); color: rgba(245,242,237,0.6);
+      font-family: 'DM Sans', sans-serif; font-weight: 600;
+      font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
+      padding: 12px 24px; text-decoration: none; display: inline-block;
+      background: none; cursor: pointer; transition: all 0.2s;
+    }
+    .btn-outline-dark:hover { border-color: var(--white); color: var(--white); }
+
+    /* CTA */
+    .cta-section {
+      background: var(--accent); padding: 100px 80px;
+      text-align: center;
+    }
+    .cta-section h2 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(40px, 5vw, 68px);
+      color: var(--black); margin-bottom: 20px;
+    }
+    .cta-section p {
+      font-size: 18px; font-weight: 300;
+      color: rgba(10,10,10,0.6); margin-bottom: 40px;
+    }
+    .btn-dark {
+      background: var(--black); color: var(--white);
+      font-family: 'DM Sans', sans-serif; font-weight: 600;
+      font-size: 14px; letter-spacing: 0.1em; text-transform: uppercase;
+      padding: 16px 40px; text-decoration: none; display: inline-block;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .btn-dark:hover { transform: translate(-3px,-3px); box-shadow: 6px 6px 0 rgba(0,0,0,0.2); }
+
+    /* FOOTER */
+    footer {
+      background: var(--black); padding: 48px 80px;
+      display: flex; align-items: center;
+      justify-content: space-between; flex-wrap: wrap; gap: 20px;
+    }
+    .footer-brand {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 24px; color: var(--white); letter-spacing: 0.05em;
+    }
+    .footer-brand span { color: var(--accent); }
+    .footer-contact { display: flex; gap: 24px; flex-wrap: wrap; }
+    .footer-contact a {
+      font-size: 12px; font-weight: 600; letter-spacing: 0.08em;
+      text-transform: uppercase; color: rgba(245,242,237,0.4);
+      text-decoration: none; transition: color 0.2s;
+    }
+    .footer-contact a:hover { color: var(--accent); }
+    .footer-links { display: flex; gap: 24px; list-style: none; }
+    .footer-links a {
+      font-size: 12px; font-weight: 600; letter-spacing: 0.1em;
+      text-transform: uppercase; color: rgba(245,242,237,0.35);
+      text-decoration: none; transition: color 0.2s;
+    }
+    .footer-links a:hover { color: var(--accent); }
+    .footer-copy { font-size: 11px; color: rgba(245,242,237,0.25); }
+
+    @media (max-width: 900px) {
+      nav { padding: 16px 24px; }
+      .page-hero { padding: 120px 24px 80px; }
+      .intro-section { grid-template-columns: 1fr; padding: 60px 24px; }
+      .events-section { padding: 60px 24px; }
+      .event-card { grid-template-columns: 90px 1fr; }
+      .event-action { display: none; }
+      .cta-section { padding: 60px 24px; }
+      footer { flex-direction: column; text-align: center; padding: 40px 24px; }
+    }
+  </style>
 </head>
 <body>
 
-<nav id="mainNav">
-  <a class="logo-wrap" href="/">
-    <div class="logo-wordmark">
-      Sorted &amp; Sold
-      <span class="logo-sparkle-group">
-        <span class="sparkle"><svg width="18" height="18" viewBox="0 0 24 24"><path d="M12 2 L13.5 10.5 L22 12 L13.5 13.5 L12 22 L10.5 13.5 L2 12 L10.5 10.5 Z" fill="#e8a020"/></svg></span>
-        <span class="sparkle"><svg width="14" height="14" viewBox="0 0 24 24"><path d="M12 2 L13.5 10.5 L22 12 L13.5 13.5 L12 22 L10.5 13.5 L2 12 L10.5 10.5 Z" fill="#f5bb4a"/></svg></span>
-        <span class="sparkle"><svg width="10" height="10" viewBox="0 0 24 24"><path d="M12 2 L13.5 10.5 L22 12 L13.5 13.5 L12 22 L10.5 13.5 L2 12 L10.5 10.5 Z" fill="#e8a020"/></svg></span>
-      </span>
-    </div>
-    <span class="logo-tagline">Estate Sales · Pittsburgh</span>
-  </a>
-  <ul class="nav-links" id="navLinks">
-    <li><a href="/" data-page="/">Home</a></li>
-    <li><a href="about.html" data-page="about.html">About</a></li>
-    <li><a href="events.html" data-page="events.html">Events</a></li>
-    <li><a href="contact.html" data-page="contact.html" class="nav-cta">Get Started</a></li>
+<nav>
+  <a href="/" class="nav-logo">Sorted <span>&</span> Sold</a>
+  <ul class="nav-links">
+    <li><a href="events.html" style="color:var(--accent)">Upcoming Sales</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="contact.html">Get Started</a></li>
   </ul>
-  <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
 </nav>
 
+<!-- HERO -->
 <div class="page-hero">
-  <div class="page-hero-bg"></div>
-  <div class="page-hero-lines"></div>
-  <div class="page-hero-content">
-    <span class="section-label">Upcoming Sales</span>
-    <h1>Don't Miss the<br><em>Next Big Find</em></h1>
+  <span class="page-hero-label">Upcoming Sales</span>
+  <h1>Don't Miss<br>the <span>Next Big Find</span></h1>
+  <p>Open to the public. No tickets, no membership. Just show up and see what you find. We stage every sale like a boutique so you can actually browse.</p>
+</div>
+
+<!-- MARQUEE -->
+<div class="marquee-bar">
+  <div class="marquee-track">
+    <span>Fine Art</span><span class="dot">✦</span>
+    <span>Antique Furniture</span><span class="dot">✦</span>
+    <span>Jewelry &amp; Watches</span><span class="dot">✦</span>
+    <span>China &amp; Porcelain</span><span class="dot">✦</span>
+    <span>Mid-Century Finds</span><span class="dot">✦</span>
+    <span>Silver &amp; Flatware</span><span class="dot">✦</span>
+    <span>Rugs &amp; Textiles</span><span class="dot">✦</span>
+    <span>Books &amp; Libraries</span><span class="dot">✦</span>
+    <span>Collectibles</span><span class="dot">✦</span>
+    <span>Fine Art</span><span class="dot">✦</span>
+    <span>Antique Furniture</span><span class="dot">✦</span>
+    <span>Jewelry &amp; Watches</span><span class="dot">✦</span>
+    <span>China &amp; Porcelain</span><span class="dot">✦</span>
+    <span>Mid-Century Finds</span><span class="dot">✦</span>
+    <span>Silver &amp; Flatware</span><span class="dot">✦</span>
+    <span>Rugs &amp; Textiles</span><span class="dot">✦</span>
+    <span>Books &amp; Libraries</span><span class="dot">✦</span>
+    <span>Collectibles</span><span class="dot">✦</span>
   </div>
 </div>
 
-<div class="events-intro">
+<!-- INTRO -->
+<div class="intro-section">
   <div>
     <span class="section-label">What to Expect</span>
-    <h2>Real Homes. Real Stuff.<br>Really Good Deals.</h2>
-    <p>Our estate sales are open to the public. No membership, no tickets, no RSVP required (except preview evenings). Just show up, walk around, and see what you find. We stage everything neatly so you can browse like a shop, not dig through a pile.</p>
-    <p>We recommend arriving early. The good stuff goes fast. Check back often, as we add new sales regularly and post photos so you can scout things out before you come.</p>
-
-    <div class="cal-subscribe">
-      <h3>Never Miss a Sale ✦</h3>
-      <p>Subscribe and get notified when new sales are added. It's free and you can unsubscribe any time.</p>
-      <div class="cal-buttons">
-        <button class="cal-btn" onclick="subscribeGCal()">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-            <rect x="3" y="4" width="18" height="18" rx="2"/>
-            <path d="M16 2v4M8 2v4M3 10h18"/>
-          </svg>
-          Add to Google Calendar
-        </button>
-        <button class="cal-btn" onclick="subscribeICal()">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-            <rect x="3" y="4" width="18" height="18" rx="2"/>
-            <path d="M16 2v4M8 2v4M3 10h18"/>
-          </svg>
-          Subscribe via iCal / Outlook (.ics)
-        </button>
-        <button class="cal-btn" onclick="subscribeEmail()">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
-            <polyline points="22,6 12,13 2,6"/>
-          </svg>
-          Get Email Notifications
-        </button>
-      </div>
-    </div>
+    <h2>Real Homes. Real Stuff. Really Good Deals.</h2>
+    <p>Every sale is thoughtfully staged and priced so you can actually find what you're looking for. We arrive early, so the good stuff is visible. No digging through piles.</p>
+    <p>We post photos and details in advance so you can scope things out before you come. Arriving early is always a good idea. The good stuff goes fast.</p>
+    <p>Follow <a href="https://instagram.com/sortedandsoldpgh" target="_blank" style="color:var(--black);font-weight:600">@sortedandsoldpgh</a> on Instagram for the latest previews and updates.</p>
   </div>
-
-  <div>
-    <div class="gcal-frame">
-      <h3>Live Sale Calendar</h3>
-      <p>Replace the placeholder below with your Google Calendar embed.<br>
-         Go to Google Calendar → Settings → your calendar → <em>Integrate calendar</em> → copy the embed code.</p>
-      <div class="gcal-placeholder">
-        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#e8a020" stroke-width="1">
-          <rect x="3" y="4" width="18" height="18" rx="2"/>
-          <path d="M16 2v4M8 2v4M3 10h18"/>
-          <path d="M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01"/>
+  <div class="notify-box">
+    <h3>Never Miss a Sale ✦</h3>
+    <p>Get notified when new sales are posted. It's free and you can unsubscribe any time.</p>
+    <div class="notify-btns">
+      <button class="notify-btn" onclick="subscribeGCal()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/>
         </svg>
-        <span>Google Calendar embed goes here</span>
-        <span style="font-size:0.6rem;opacity:0.5">Uncomment the iframe in events.html and replace YOUR_CALENDAR_ID</span>
-      </div>
+        Add to Google Calendar
+      </button>
+      <button class="notify-btn" onclick="subscribeICal()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/>
+        </svg>
+        Subscribe via iCal / Outlook
+      </button>
+      <button class="notify-btn" onclick="subscribeEmail()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+          <polyline points="22,6 12,13 2,6"/>
+        </svg>
+        Get Email Notifications
+      </button>
     </div>
   </div>
 </div>
 
-<div class="events-list">
-  <div class="events-filter">
-    <button class="filter-btn active" onclick="filterEvents('all', this)">All Sales</button>
-    <button class="filter-btn" onclick="filterEvents('upcoming', this)">Upcoming</button>
-    <button class="filter-btn" onclick="filterEvents('preview', this)">Preview Events</button>
-  </div>
-
-  <div class="event-card" data-type="upcoming">
-    <div class="event-date-block">
-      <div class="event-month">Jun</div>
-      <div class="event-day">14</div>
-      <div class="event-weekday">Sat</div>
-    </div>
-    <div class="event-info">
-      <span class="event-tag">Two-Day Sale</span>
-      <h3>The Harrington Estate,Fox Chapel</h3>
-      <div class="event-meta">
-        <span>9 AM – 4 PM, Sat &amp; Sun</span>
-        <span>Fox Chapel, PA</span>
-        <span>Fine Art · Silver · Antiques</span>
-      </div>
-    </div>
-    <div class="event-action">
-      <button class="btn btn-outline" style="font-size:0.72rem;padding:0.7rem 1.4rem">Details</button>
+<!-- EVENTS LIST -->
+<section class="events-section">
+  <div class="events-header">
+    <h2>Upcoming Sales</h2>
+    <div class="filter-bar">
+      <button class="filter-btn active" onclick="filterEvents('all', this)">All</button>
+      <button class="filter-btn" onclick="filterEvents('upcoming', this)">Sales</button>
+      <button class="filter-btn" onclick="filterEvents('preview', this)">Preview Events</button>
     </div>
   </div>
 
-  <div class="event-card" data-type="preview">
-    <div class="event-date-block">
-      <div class="event-month">Jun</div>
-      <div class="event-day">20</div>
-      <div class="event-weekday">Fri</div>
-    </div>
-    <div class="event-info">
-      <span class="event-tag">Preview Evening</span>
-      <h3>Collector's Preview,Shadyside Townhome</h3>
-      <div class="event-meta">
-        <span>6 PM – 9 PM (by invitation)</span>
-        <span>Shadyside, Pittsburgh</span>
-        <span>Mid-Century · Jewelry · Books</span>
-      </div>
-    </div>
-    <div class="event-action">
-      <a href="contact.html" class="btn btn-coral" style="font-size:0.72rem;padding:0.7rem 1.4rem">RSVP</a>
-    </div>
-  </div>
+  <div class="events-list">
 
-  <div class="event-card" data-type="upcoming">
-    <div class="event-date-block">
-      <div class="event-month">Jun</div>
-      <div class="event-day">28</div>
-      <div class="event-weekday">Sat</div>
-    </div>
-    <div class="event-info">
-      <span class="event-tag">One-Day Sale</span>
-      <h3>The Brennan Collection,Sewickley</h3>
-      <div class="event-meta">
-        <span>8 AM – 3 PM</span>
-        <span>Sewickley, PA</span>
-        <span>Porcelain · Garden · Furniture</span>
+    <div class="event-card" data-type="upcoming">
+      <div class="event-date-block">
+        <div class="event-month">Jun</div>
+        <div class="event-day">14</div>
+        <div class="event-weekday">Sat</div>
+      </div>
+      <div class="event-info">
+        <span class="event-tag">Two-Day Sale</span>
+        <h3>The Harrington Estate, Fox Chapel</h3>
+        <div class="event-meta">
+          <span>9 AM – 4 PM, Sat &amp; Sun</span>
+          <span>Fox Chapel, PA</span>
+          <span>Fine Art · Silver · Antiques</span>
+        </div>
+      </div>
+      <div class="event-action">
+        <button class="btn-outline-dark">Details</button>
       </div>
     </div>
-    <div class="event-action">
-      <button class="btn btn-outline" style="font-size:0.72rem;padding:0.7rem 1.4rem">Details</button>
-    </div>
-  </div>
 
-  <div class="event-card" data-type="upcoming">
-    <div class="event-date-block">
-      <div class="event-month">Jul</div>
-      <div class="event-day">12</div>
-      <div class="event-weekday">Sat</div>
-    </div>
-    <div class="event-info">
-      <span class="event-tag">Two-Day Sale</span>
-      <h3>Whitmore Residence,Mt. Lebanon</h3>
-      <div class="event-meta">
-        <span>9 AM – 5 PM, Sat &amp; Sun</span>
-        <span>Mt. Lebanon, PA</span>
-        <span>Rugs · Lighting · Collectibles</span>
+    <div class="event-card preview" data-type="preview">
+      <div class="event-date-block">
+        <div class="event-month">Jun</div>
+        <div class="event-day">20</div>
+        <div class="event-weekday">Fri</div>
+      </div>
+      <div class="event-info">
+        <span class="event-tag">Preview Evening</span>
+        <h3>Collector's Preview, Shadyside Townhome</h3>
+        <div class="event-meta">
+          <span>6 PM – 9 PM (by invitation)</span>
+          <span>Shadyside, Pittsburgh</span>
+          <span>Mid-Century · Jewelry · Books</span>
+        </div>
+      </div>
+      <div class="event-action">
+        <a href="contact.html" class="btn-accent">RSVP</a>
       </div>
     </div>
-    <div class="event-action">
-      <button class="btn btn-outline" style="font-size:0.72rem;padding:0.7rem 1.4rem">Details</button>
-    </div>
-  </div>
 
-  <div class="event-card" data-type="upcoming">
-    <div class="event-date-block">
-      <div class="event-month">Jul</div>
-      <div class="event-day">26</div>
-      <div class="event-weekday">Sat</div>
-    </div>
-    <div class="event-info">
-      <span class="event-tag">One-Day Sale</span>
-      <h3>Elsworth Estate,Upper St. Clair</h3>
-      <div class="event-meta">
-        <span>8 AM – 2 PM</span>
-        <span>Upper St. Clair, PA</span>
-        <span>Vintage · Fashion · Art Deco</span>
+    <div class="event-card" data-type="upcoming">
+      <div class="event-date-block">
+        <div class="event-month">Jun</div>
+        <div class="event-day">28</div>
+        <div class="event-weekday">Sat</div>
+      </div>
+      <div class="event-info">
+        <span class="event-tag">One-Day Sale</span>
+        <h3>The Brennan Collection, Sewickley</h3>
+        <div class="event-meta">
+          <span>8 AM – 3 PM</span>
+          <span>Sewickley, PA</span>
+          <span>Porcelain · Garden · Furniture</span>
+        </div>
+      </div>
+      <div class="event-action">
+        <button class="btn-outline-dark">Details</button>
       </div>
     </div>
-    <div class="event-action">
-      <button class="btn btn-outline" style="font-size:0.72rem;padding:0.7rem 1.4rem">Details</button>
+
+    <div class="event-card" data-type="upcoming">
+      <div class="event-date-block">
+        <div class="event-month">Jul</div>
+        <div class="event-day">12</div>
+        <div class="event-weekday">Sat</div>
+      </div>
+      <div class="event-info">
+        <span class="event-tag">Two-Day Sale</span>
+        <h3>Whitmore Residence, Mt. Lebanon</h3>
+        <div class="event-meta">
+          <span>9 AM – 5 PM, Sat &amp; Sun</span>
+          <span>Mt. Lebanon, PA</span>
+          <span>Rugs · Lighting · Collectibles</span>
+        </div>
+      </div>
+      <div class="event-action">
+        <button class="btn-outline-dark">Details</button>
+      </div>
     </div>
+
+    <div class="event-card" data-type="upcoming">
+      <div class="event-date-block">
+        <div class="event-month">Jul</div>
+        <div class="event-day">26</div>
+        <div class="event-weekday">Sat</div>
+      </div>
+      <div class="event-info">
+        <span class="event-tag">One-Day Sale</span>
+        <h3>Elsworth Estate, Upper St. Clair</h3>
+        <div class="event-meta">
+          <span>8 AM – 2 PM</span>
+          <span>Upper St. Clair, PA</span>
+          <span>Vintage · Fashion · Art Deco</span>
+        </div>
+      </div>
+      <div class="event-action">
+        <button class="btn-outline-dark">Details</button>
+      </div>
+    </div>
+
   </div>
-</div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <span style="font-size:11px;font-weight:600;letter-spacing:0.25em;text-transform:uppercase;color:rgba(10,10,10,0.4);display:block;margin-bottom:16px">Are You an Estate?</span>
+  <h2>Let's Run Your<br>Sale Together</h2>
+  <p>Free consultation. We handle everything. You collect the check.</p>
+  <a href="contact.html" class="btn-dark">Get Your Free Consult</a>
+</section>
 
 <footer>
-  <div class="footer-inner">
-    <div class="footer-brand">
-      <div class="wordmark">Sorted &amp; Sold ✦</div>
-      <div class="tagline">Estate Sales · Pittsburgh</div>
-      <p>Bringing warmth, expertise, and good energy to estate sales across the Pittsburgh area.</p>
-    </div>
-    <div class="footer-col">
-      <h4>Navigate</h4>
-      <ul>
-        <li><a href="/">Home</a></li>
-        <li><a href="about.html">About Us</a></li>
-        <li><a href="events.html">Upcoming Sales</a></li>
-        <li><a href="contact.html">Contact</a></li>
-      </ul>
-    </div>
-    <div class="footer-col">
-      <h4>Services</h4>
-      <ul>
-        <li><span>Estate Sales</span></li>
-        <li><span>Appraisals</span></li>
-        <li><span>Buyouts</span></li>
-        <li><span>Online Auctions</span></li>
-      </ul>
-    </div>
-    <div class="footer-col">
-      <h4>Get In Touch</h4>
-      <ul>
-        <li><span><a href="mailto:sortedandsoldpgh@gmail.com">sortedandsoldpgh@gmail.com</a></span></li>
-        <li><span><a href="tel:+4124437923">(412) 443-7923</a></span></li>
-        <li><span>Greater Pittsburgh Area</span></li>
-      </ul>
-    </div>
+  <div class="footer-brand">Sorted <span>&</span> Sold</div>
+  <div class="footer-contact">
+    <a href="tel:+4124437923">(412) 443-7923</a>
+    <a href="mailto:sortedandsoldpgh@gmail.com">sortedandsoldpgh@gmail.com</a>
+    <a href="https://instagram.com/sortedandsoldpgh" target="_blank">@sortedandsoldpgh</a>
   </div>
-  <div class="footer-bottom">
-    <span>&copy; 2025 Sorted &amp; Sold. All rights reserved.</span>
-    <span>Privacy Policy · Terms of Service</span>
-  </div>
+  <ul class="footer-links">
+    <li><a href="/">Home</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+  <p class="footer-copy">© 2025 Sorted &amp; Sold Pittsburgh · All rights reserved</p>
 </footer>
 
-<script src="nav.js"></script>
 <script>
   function filterEvents(type, btn) {
     document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
@@ -254,8 +515,7 @@
     window.open(`https://calendar.google.com/calendar/r?cid=${encodeURIComponent(calId)}`, '_blank');
   }
   function subscribeICal() {
-    const icsUrl = 'https://calendar.google.com/calendar/ical/YOUR_CALENDAR_ID/public/basic.ics';
-    window.open(icsUrl, '_blank');
+    window.open('https://calendar.google.com/calendar/ical/YOUR_CALENDAR_ID/public/basic.ics', '_blank');
   }
   function subscribeEmail() {
     window.location.href = 'contact.html?reason=newsletter';
