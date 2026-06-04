@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact — Sorted &amp; Sold</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<nav id="mainNav">
+  <a class="logo-wrap" href="index.html">
+    <div class="logo-wordmark">
+      Sorted &amp; Sold
+      <span class="logo-sparkle-group">
+        <span class="sparkle"><svg width="18" height="18" viewBox="0 0 24 24"><path d="M12 2 L13.5 10.5 L22 12 L13.5 13.5 L12 22 L10.5 13.5 L2 12 L10.5 10.5 Z" fill="#e8a020"/></svg></span>
+        <span class="sparkle"><svg width="14" height="14" viewBox="0 0 24 24"><path d="M12 2 L13.5 10.5 L22 12 L13.5 13.5 L12 22 L10.5 13.5 L2 12 L10.5 10.5 Z" fill="#f5bb4a"/></svg></span>
+        <span class="sparkle"><svg width="10" height="10" viewBox="0 0 24 24"><path d="M12 2 L13.5 10.5 L22 12 L13.5 13.5 L12 22 L10.5 13.5 L2 12 L10.5 10.5 Z" fill="#e8a020"/></svg></span>
+      </span>
+    </div>
+    <span class="logo-tagline">Estate Sales · Pittsburgh</span>
+  </a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="index.html" data-page="index.html">Home</a></li>
+    <li><a href="about.html" data-page="about.html">About</a></li>
+    <li><a href="events.html" data-page="events.html">Events</a></li>
+    <li><a href="contact.html" data-page="contact.html" class="nav-cta">Get Started</a></li>
+  </ul>
+  <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="contact-layout">
+  <div class="contact-left">
+    <div>
+      <span class="section-label">Free Consultation</span>
+      <h2>Let's Figure Out<br>the Best Plan for<br><em>Your Estate</em></h2>
+      <p>No pressure, no commitment. We'll walk through the estate with you, answer every question, and give you an honest picture of what to expect — for free.</p>
+      <div class="contact-info-list">
+        <div class="contact-info-item">
+          <span class="ci-label">Phone</span>
+          <span class="ci-val">(412) 555-0190</span>
+        </div>
+        <div class="contact-info-item">
+          <span class="ci-label">Email</span>
+          <span class="ci-val">hello@sortedandsold.com</span>
+        </div>
+        <div class="contact-info-item">
+          <span class="ci-label">Service Area</span>
+          <span class="ci-val">Greater Pittsburgh,<br>Western PA &amp; surrounding areas</span>
+        </div>
+        <div class="contact-info-item">
+          <span class="ci-label">Hours</span>
+          <span class="ci-val">Mon–Fri, 9 AM – 6 PM<br>Sat by appointment</span>
+        </div>
+      </div>
+    </div>
+    <div class="contact-bottom">
+      All consultations are free. All information is kept confidential. We respond within one business day.
+    </div>
+  </div>
+
+  <div class="contact-right">
+    <div class="form-section-title">Tell Us About Your Estate</div>
+
+    <form class="inquiry-form" id="inquiryForm" onsubmit="handleSubmit(event)">
+      <div class="form-row">
+        <div class="form-field">
+          <label for="fname">First Name *</label>
+          <input type="text" id="fname" name="fname" required placeholder="Margaret" />
+        </div>
+        <div class="form-field">
+          <label for="lname">Last Name *</label>
+          <input type="text" id="lname" name="lname" required placeholder="Whitmore" />
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-field">
+          <label for="email">Email Address *</label>
+          <input type="email" id="email" name="email" required placeholder="you@example.com" />
+        </div>
+        <div class="form-field">
+          <label for="phone">Phone Number</label>
+          <input type="tel" id="phone" name="phone" placeholder="(412) 000-0000" />
+        </div>
+      </div>
+      <div class="form-row" style="margin-top:2px">
+        <div class="form-field">
+          <label for="relationship">Your Role *</label>
+          <select id="relationship" name="relationship" required>
+            <option value="" disabled selected>Select one</option>
+            <option>Estate Executor / Administrator</option>
+            <option>Family Member / Heir</option>
+            <option>Attorney / Legal Representative</option>
+            <option>Financial Advisor / Trustee</option>
+            <option>Property Owner (downsizing)</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label for="timeline">Timeline</label>
+          <select id="timeline" name="timeline">
+            <option value="" disabled selected>Select one</option>
+            <option>Immediately (within 2 weeks)</option>
+            <option>Within 1 month</option>
+            <option>1–3 months</option>
+            <option>3–6 months</option>
+            <option>6+ months / Planning ahead</option>
+            <option>Not sure yet</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-field">
+          <label for="city">City</label>
+          <input type="text" id="city" name="city" placeholder="Pittsburgh" />
+        </div>
+        <div class="form-field">
+          <label for="zip">ZIP Code</label>
+          <input type="text" id="zip" name="zip" placeholder="15232" />
+        </div>
+      </div>
+      <div class="form-field full" style="margin-bottom:2px">
+        <label for="estsize">Home Size</label>
+        <select id="estsize" name="estsize">
+          <option value="" disabled selected>Select one</option>
+          <option>Studio / Apartment</option>
+          <option>Single-Family Home (under 2,500 sq ft)</option>
+          <option>Single-Family Home (2,500–5,000 sq ft)</option>
+          <option>Large Home / Estate (5,000+ sq ft)</option>
+          <option>Multi-Property Estate</option>
+        </select>
+      </div>
+      <div class="checkbox-group">
+        <span class="checkbox-group-label">What kinds of items are there? (check all that apply)</span>
+        <div class="checkbox-options">
+          <label class="checkbox-opt"><input type="checkbox" name="items" value="fine-art" /> Fine Art &amp; Paintings</label>
+          <label class="checkbox-opt"><input type="checkbox" name="items" value="furniture" /> Antique &amp; Fine Furniture</label>
+          <label class="checkbox-opt"><input type="checkbox" name="items" value="jewelry" /> Jewelry &amp; Watches</label>
+          <label class="checkbox-opt"><input type="checkbox" name="items" value="silver" /> Silver &amp; Flatware</label>
+          <label class="checkbox-opt"><input type="checkbox" name="items" value="china" /> China &amp; Porcelain</label>
+          <label class="checkbox-opt"><input type="checkbox" name="items" value="books" /> Books &amp; Libraries</label>
+          <label class="checkbox-opt"><input type="checkbox" name="items" value="collectibles" /> Collectibles &amp; Memorabilia</label>
+          <label class="checkbox-opt"><input type="checkbox" name="items" value="rugs" /> Rugs &amp; Textiles</label>
+          <label class="checkbox-opt"><input type="checkbox" name="items" value="wine" /> Wine &amp; Spirits</label>
+          <label class="checkbox-opt"><input type="checkbox" name="items" value="other" /> Other / General Household</label>
+        </div>
+      </div>
+      <div class="checkbox-group">
+        <span class="checkbox-group-label">What are you interested in?</span>
+        <div class="checkbox-options">
+          <label class="checkbox-opt"><input type="checkbox" name="services" value="full-sale" checked /> Full Estate Sale</label>
+          <label class="checkbox-opt"><input type="checkbox" name="services" value="appraisal" /> Appraisal Only</label>
+          <label class="checkbox-opt"><input type="checkbox" name="services" value="buyout" /> Estate Buyout</label>
+          <label class="checkbox-opt"><input type="checkbox" name="services" value="online" /> Online / Hybrid Auction</label>
+          <label class="checkbox-opt"><input type="checkbox" name="services" value="cleanout" /> Post-Sale Clean-Out</label>
+          <label class="checkbox-opt"><input type="checkbox" name="services" value="unsure" /> Not Sure — Just Exploring</label>
+        </div>
+      </div>
+      <div class="form-field full" style="margin-bottom:0">
+        <label for="message">Anything else we should know?</label>
+        <textarea id="message" name="message" rows="5" placeholder="Tell us about the estate, any notable items, your situation, or questions you have. There's no wrong thing to share — the more we know, the better we can help."></textarea>
+      </div>
+      <div class="form-field full" style="margin-bottom:0">
+        <label for="heardFrom">How did you find us?</label>
+        <select id="heardFrom" name="heardFrom">
+          <option value="" disabled selected>Select one</option>
+          <option>Referral from a friend or family member</option>
+          <option>Attorney or financial advisor referral</option>
+          <option>Google Search</option>
+          <option>Social Media</option>
+          <option>Attended a previous sale</option>
+          <option>Local newspaper or magazine</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div class="form-submit">
+        <p class="form-note">We respond within one business day.<br>Everything you share stays confidential.</p>
+        <button type="submit" class="btn btn-coral">Send My Inquiry &rarr;</button>
+      </div>
+    </form>
+
+    <div class="form-success" id="formSuccess">
+      <div style="font-size:2rem;margin-bottom:1rem">✦</div>
+      <h3>You're All Set!</h3>
+      <p>We got your message and we'll be in touch within one business day to set up your free consultation. We're looking forward to it.</p>
+      <br>
+      <a href="index.html" class="btn btn-outline" style="margin-top:0.5rem;display:inline-block">Back to Home</a>
+    </div>
+  </div>
+</div>
+
+<script src="nav.js"></script>
+<script>
+  function handleSubmit(e) {
+    e.preventDefault();
+    document.getElementById('inquiryForm').style.display = 'none';
+    document.getElementById('formSuccess').classList.add('visible');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+  const params = new URLSearchParams(window.location.search);
+  if (params.get('reason') === 'newsletter') {
+    const msg = document.getElementById('message');
+    if (msg) msg.value = 'I would like to receive email notifications about upcoming estate sales.';
+  }
+</script>
+</body>
+</html>
