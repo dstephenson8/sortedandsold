@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FAQ — Sorted &amp; Sold Pittsburgh</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,600;1,300&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --black: #0a0a0a;
+      --white: #f5f2ed;
+      --cream: #f0ead8;
+      --accent: #e8c547;
+      --text: #1a1a1a;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--white); color: var(--text); font-family: 'DM Sans', sans-serif; overflow-x: hidden; }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 20px 60px;
+      background: rgba(10,10,10,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .nav-logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 24px; letter-spacing: 0.05em;
+      color: var(--white); text-decoration: none;
+    }
+    .nav-logo span { color: var(--accent); }
+    .nav-links { display: flex; gap: 36px; list-style: none; }
+    .nav-links a {
+      font-size: 12px; font-weight: 600; letter-spacing: 0.12em;
+      text-transform: uppercase; color: rgba(245,242,237,0.55);
+      text-decoration: none; transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--accent); }
+
+    /* HERO */
+    .page-hero {
+      background: var(--black);
+      padding: 160px 80px 100px;
+      position: relative; overflow: hidden;
+    }
+    .page-hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: repeating-linear-gradient(
+        -45deg, transparent, transparent 40px,
+        rgba(255,255,255,0.015) 40px, rgba(255,255,255,0.015) 41px
+      );
+      pointer-events: none;
+    }
+    .page-hero-label {
+      font-size: 11px; font-weight: 600; letter-spacing: 0.25em;
+      text-transform: uppercase; color: rgba(245,242,237,0.3);
+      margin-bottom: 20px; display: block;
+    }
+    .page-hero h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(60px, 8vw, 110px);
+      line-height: 0.92; color: var(--white); margin-bottom: 28px;
+    }
+    .page-hero h1 span { color: var(--accent); }
+    .page-hero p {
+      font-size: 18px; font-weight: 300;
+      color: rgba(245,242,237,0.5);
+      max-width: 500px; line-height: 1.65;
+    }
+
+    /* FAQ SECTION */
+    .faq-section {
+      padding: 100px 80px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .faq-intro {
+      margin-bottom: 72px;
+    }
+    .faq-intro .section-label {
+      font-size: 11px; font-weight: 600; letter-spacing: 0.25em;
+      text-transform: uppercase; color: rgba(10,10,10,0.35);
+      display: block; margin-bottom: 16px;
+    }
+    .faq-intro h2 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(40px, 5vw, 64px);
+      line-height: 1; color: var(--black);
+    }
+
+    /* FAQ ITEMS */
+    .faq-item {
+      border-top: 1px solid rgba(10,10,10,0.1);
+      padding: 0;
+      overflow: hidden;
+    }
+    .faq-item:last-of-type { border-bottom: 1px solid rgba(10,10,10,0.1); }
+
+    .faq-question {
+      width: 100%; background: none; border: none;
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 24px; padding: 32px 0; cursor: pointer;
+      text-align: left;
+    }
+    .faq-question-text {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 26px; color: var(--black); line-height: 1.1;
+      transition: color 0.2s;
+    }
+    .faq-item.open .faq-question-text { color: var(--black); }
+
+    .faq-icon {
+      width: 40px; height: 40px; flex-shrink: 0;
+      background: var(--black); border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.2s, transform 0.3s;
+    }
+    .faq-item.open .faq-icon {
+      background: var(--accent);
+      transform: rotate(45deg);
+    }
+    .faq-icon svg { stroke: var(--white); }
+    .faq-item.open .faq-icon svg { stroke: var(--black); }
+
+    .faq-answer {
+      max-height: 0; overflow: hidden;
+      transition: max-height 0.4s ease, padding 0.3s ease;
+    }
+    .faq-item.open .faq-answer {
+      max-height: 400px;
+    }
+    .faq-answer-inner {
+      padding-bottom: 36px;
+    }
+    .faq-answer-inner p {
+      font-size: 17px; font-weight: 300;
+      color: rgba(10,10,10,0.65); line-height: 1.8;
+    }
+
+    /* NUMBER ACCENT */
+    .faq-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 13px; color: var(--accent);
+      letter-spacing: 0.1em; margin-bottom: 6px; display: block;
+    }
+
+    /* CTA */
+    .cta-section {
+      background: var(--accent); padding: 100px 80px;
+      text-align: center;
+    }
+    .cta-section h2 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(40px, 5vw, 68px);
+      color: var(--black); margin-bottom: 20px;
+    }
+    .cta-section p {
+      font-size: 18px; font-weight: 300;
+      color: rgba(10,10,10,0.6); margin-bottom: 40px;
+    }
+    .btn-dark {
+      background: var(--black); color: var(--white);
+      font-family: 'DM Sans', sans-serif; font-weight: 600;
+      font-size: 14px; letter-spacing: 0.1em; text-transform: uppercase;
+      padding: 16px 40px; text-decoration: none; display: inline-block;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .btn-dark:hover { transform: translate(-3px,-3px); box-shadow: 6px 6px 0 rgba(0,0,0,0.2); }
+
+    /* FOOTER */
+    footer {
+      background: var(--black); padding: 48px 80px;
+      display: flex; align-items: center;
+      justify-content: space-between; flex-wrap: wrap; gap: 20px;
+    }
+    .footer-brand {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 24px; color: var(--white); letter-spacing: 0.05em;
+    }
+    .footer-brand span { color: var(--accent); }
+    .footer-contact { display: flex; gap: 24px; flex-wrap: wrap; }
+    .footer-contact a {
+      font-size: 12px; font-weight: 600; letter-spacing: 0.08em;
+      text-transform: uppercase; color: rgba(245,242,237,0.4);
+      text-decoration: none; transition: color 0.2s;
+    }
+    .footer-contact a:hover { color: var(--accent); }
+    .footer-links { display: flex; gap: 24px; list-style: none; }
+    .footer-links a {
+      font-size: 12px; font-weight: 600; letter-spacing: 0.1em;
+      text-transform: uppercase; color: rgba(245,242,237,0.35);
+      text-decoration: none; transition: color 0.2s;
+    }
+    .footer-links a:hover { color: var(--accent); }
+    .footer-copy { font-size: 11px; color: rgba(245,242,237,0.25); }
+
+    @media (max-width: 900px) {
+      nav { padding: 16px 24px; }
+      .page-hero { padding: 120px 24px 80px; }
+      .faq-section { padding: 60px 24px; }
+      .cta-section { padding: 60px 24px; }
+      footer { flex-direction: column; text-align: center; padding: 40px 24px; }
+      .footer-contact, .footer-links { justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-logo">Sorted <span>&</span> Sold</a>
+  <ul class="nav-links">
+    <li><a href="events.html">Upcoming Sales</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="contact.html">Get Started</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="page-hero">
+  <span class="page-hero-label">You've Got Questions</span>
+  <h1>We've Got <span>Answers</span></h1>
+  <p>No jargon, no runaround. Just straight answers to the things people actually want to know.</p>
+</div>
+
+<!-- FAQ -->
+<div class="faq-section">
+
+  <div class="faq-intro">
+    <span class="section-label">Common Questions</span>
+    <h2>Everything You<br>Need to Know</h2>
+  </div>
+
+  <div class="faq-item open">
+    <button class="faq-question" onclick="toggleFaq(this)">
+      <div>
+        <span class="faq-num">01</span>
+        <span class="faq-question-text">Do I have to clean out the house first?</span>
+      </div>
+      <div class="faq-icon">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round">
+          <path d="M12 5v14M5 12h14"/>
+        </svg>
+      </div>
+    </button>
+    <div class="faq-answer">
+      <div class="faq-answer-inner">
+        <p>Absolutely not — and please don't! The more we have to work with, the better. Leave everything exactly where it is. That dusty box in the corner? We want it. That drawer full of mystery? Ours. You'd be surprised what sells.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="faq-item">
+    <button class="faq-question" onclick="toggleFaq(this)">
+      <div>
+        <span class="faq-num">02</span>
+        <span class="faq-question-text">How do you get paid?</span>
+      </div>
+      <div class="faq-icon">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round">
+          <path d="M12 5v14M5 12h14"/>
+        </svg>
+      </div>
+    </button>
+    <div class="faq-answer">
+      <div class="faq-answer-inner">
+        <p>We work on commission, meaning we only make money when you make money. No upfront costs, no surprise fees on settlement day. We tell you our rate on day one and that's exactly what it is. Simple, transparent, done.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="faq-item">
+    <button class="faq-question" onclick="toggleFaq(this)">
+      <div>
+        <span class="faq-num">03</span>
+        <span class="faq-question-text">What happens to stuff that doesn't sell?</span>
+      </div>
+      <div class="faq-icon">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round">
+          <path d="M12 5v14M5 12h14"/>
+        </svg>
+      </div>
+    </button>
+    <div class="faq-answer">
+      <div class="faq-answer-inner">
+        <p>We coordinate everything: donation drop-offs to local charities, haul-away options, or we can help you figure out next steps. You won't be left with a house full of leftovers. That's not how we do things.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="faq-item">
+    <button class="faq-question" onclick="toggleFaq(this)">
+      <div>
+        <span class="faq-num">04</span>
+        <span class="faq-question-text">Do I have to be there during the sale?</span>
+      </div>
+      <div class="faq-icon">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round">
+          <path d="M12 5v14M5 12h14"/>
+        </svg>
+      </div>
+    </button>
+    <div class="faq-answer">
+      <div class="faq-answer-inner">
+        <p>Nope! Most clients drop off the keys and let us handle it. We keep you updated and you collect a check at the end. If you want to stop by, you're always welcome. Just know it might be hard to watch strangers fall in love with grandma's lamp.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="faq-item">
+    <button class="faq-question" onclick="toggleFaq(this)">
+      <div>
+        <span class="faq-num">05</span>
+        <span class="faq-question-text">How do you price things? How do I know I'm getting fair value?</span>
+      </div>
+      <div class="faq-icon">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round">
+          <path d="M12 5v14M5 12h14"/>
+        </svg>
+      </div>
+    </button>
+    <div class="faq-answer">
+      <div class="faq-answer-inner">
+        <p>We research every item using current market data, recent auction records, and category expertise. We're not guessing. We're doing homework. Our goal is to price things to actually sell while making sure your estate earns what it's worth.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="faq-item">
+    <button class="faq-question" onclick="toggleFaq(this)">
+      <div>
+        <span class="faq-num">06</span>
+        <span class="faq-question-text">How far in advance do I need to call you?</span>
+      </div>
+      <div class="faq-icon">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round">
+          <path d="M12 5v14M5 12h14"/>
+        </svg>
+      </div>
+    </button>
+    <div class="faq-answer">
+      <div class="faq-answer-inner">
+        <p>As soon as you can, honestly. A few weeks out is ideal. It gives us time to catalog, stage, and market the sale properly. But if you're in a tight spot, reach out anyway. We'll always tell you honestly what's possible.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="faq-item">
+    <button class="faq-question" onclick="toggleFaq(this)">
+      <div>
+        <span class="faq-num">07</span>
+        <span class="faq-question-text">What if we're going through something really hard right now?</span>
+      </div>
+      <div class="faq-icon">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round">
+          <path d="M12 5v14M5 12h14"/>
+        </svg>
+      </div>
+    </button>
+    <div class="faq-answer">
+      <div class="faq-answer-inner">
+        <p>We know estate sales often come at some of the most overwhelming moments in life. We show up with patience, zero pressure, and genuine care. There's no rush, no judgment, and no dumb questions. We've got you. That's the whole point.</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- CTA -->
+<section class="cta-section">
+  <span style="font-size:11px;font-weight:600;letter-spacing:0.25em;text-transform:uppercase;color:rgba(10,10,10,0.4);display:block;margin-bottom:16px">Still Have Questions?</span>
+  <h2>Just Ask Us Directly</h2>
+  <p>Reach out anytime. We respond within one business day and there's never any pressure.</p>
+  <a href="contact.html" class="btn-dark">Get In Touch</a>
+</section>
+
+<footer>
+  <div class="footer-brand">Sorted <span>&</span> Sold</div>
+  <div class="footer-contact">
+    <a href="tel:+4124437923">(412) 443-7923</a>
+    <a href="mailto:sortedandsoldpgh@gmail.com">sortedandsoldpgh@gmail.com</a>
+    <a href="https://instagram.com/sortedandsoldpgh" target="_blank">@sortedandsoldpgh</a>
+  </div>
+  <ul class="footer-links">
+    <li><a href="/">Home</a></li>
+    <li><a href="events.html">Events</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+  <p class="footer-copy">© 2025 Sorted &amp; Sold Pittsburgh · All rights reserved</p>
+</footer>
+
+<script>
+  function toggleFaq(btn) {
+    const item = btn.closest('.faq-item');
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+    if (!isOpen) item.classList.add('open');
+  }
+</script>
+</body>
+</html>
